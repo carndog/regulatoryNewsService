@@ -1,7 +1,7 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
 
 namespace RegulatoryNewsService
 {
@@ -27,10 +27,24 @@ namespace RegulatoryNewsService
         {
             SymbolsConfiguration symbolsConfiguration = _configuration.SymbolsConfiguration;
 
-            //string rnsJson = await _client.Download(string.Format(baseUrl, symbol));
-            string rnsJson = await _client.Download(string.Format(searchUrl));
+            string rnsLinks = await _client.Download(string.Format(searchUrl));
 
-            return rnsJson;
+            HtmlDocument document = new HtmlDocument();
+
+            document.LoadHtml(rnsLinks);
+
+            IEnumerable<HtmlNode> htmlNodes = document.DocumentNode.Descendants()
+                .Where(x => x.Name == "td")
+                .Where(x => x.HasClass("RNS_data"));
+
+            IEnumerable<HtmlAttribute> htmlAttributes = htmlNodes.SelectMany(x => x.Attributes.Where(y => y.Name == "href"))
+                .Where(x => x.Value.Contains("/exchange/news"));
+
+            IEnumerable<string> values = htmlAttributes.Select(x => x.Value);
+
+            //enumerable.First().Attributes.Where(x => x.Name == "href").First(x => x.Value.Contains("/exchange/news")).Value
+
+            return rnsLinks;
         }
     }
 }

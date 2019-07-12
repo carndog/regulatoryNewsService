@@ -14,7 +14,7 @@ namespace RnsConsole
 
             IFeedDownloader feedDownloader = root.Get();
 
-            string content = await feedDownloader.Download("TW");
+            string content = await feedDownloader.Download();
         }
     }
 }

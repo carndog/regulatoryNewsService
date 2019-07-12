@@ -22,7 +22,8 @@ namespace Infrastructure
                 
                 Component.For<IHttpClient>().ImplementedBy<HttpDownloadClient>(),
                 Component.For<IFeedDownloader>().ImplementedBy<FeedDownloader>(),
-                Component.For<IAppConfiguration>().ImplementedBy<AppConfiguration>()
+                Component.For<IAppConfiguration>().ImplementedBy<AppConfiguration>(),
+                Component.For<IUrlLinkProvider>().ImplementedBy<RnsSearchResultsUrlLinkProvider>()
             );
 
         }

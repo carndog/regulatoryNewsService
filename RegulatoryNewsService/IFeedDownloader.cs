@@ -4,6 +4,6 @@ namespace RegulatoryNewsService
 {
     public interface IFeedDownloader
     {
-        Task<string> Download(string symbol);
+        Task<string> Download();
     }
 }

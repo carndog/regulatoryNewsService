@@ -36,8 +36,23 @@ namespace RegulatoryNewsService
             {
                 Symbols = symbols.ToArray()
             };
+
+            UrlsConfiguration = new UrlsConfiguration
+            {
+                BaseUrl = configurationRoot.GetSection("Urls:Base").Value,
+                SearchUrl = configurationRoot.GetSection("Urls:Search").Value
+            };
+
+            MetaDataConfiguration = new MetaDataConfiguration
+            {
+                Extension = configurationRoot.GetSection("MetaData:Extension").Value
+            };
         }
 
         public SymbolsConfiguration SymbolsConfiguration { get; private set; }
+
+        public UrlsConfiguration UrlsConfiguration { get; private set; }
+
+        public MetaDataConfiguration MetaDataConfiguration { get; private set; }
     }
 }

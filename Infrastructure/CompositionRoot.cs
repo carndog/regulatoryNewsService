@@ -1,13 +1,12 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.Windsor;
-using Microsoft.Extensions.Configuration;
 using RegulatoryNewsService;
 
 namespace Infrastructure
 {
     public class CompositionRoot
     {
-        private WindsorContainer _container;
+        private readonly WindsorContainer _container;
 
         public CompositionRoot()
         {
@@ -23,14 +22,16 @@ namespace Infrastructure
                 Component.For<IHttpClient>().ImplementedBy<HttpDownloadClient>(),
                 Component.For<IFeedDownloader>().ImplementedBy<FeedDownloader>(),
                 Component.For<IAppConfiguration>().ImplementedBy<AppConfiguration>(),
-                Component.For<IUrlLinkProvider>().ImplementedBy<RnsSearchResultsUrlLinkProvider>()
+                Component.For<IUrlLinkProvider>().ImplementedBy<RnsSearchResultsUrlLinkProvider>(),
+                Component.For<ILinkDownloader>().ImplementedBy<LinkDownloader>()
+
             );
 
         }
 
-        public IFeedDownloader Get()
+        public ILinkDownloader Get()
         {
-            return _container.Resolve<IFeedDownloader>();
+            return _container.Resolve<ILinkDownloader>();
         }
        
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Infrastructure;
 using RegulatoryNewsService;
@@ -12,9 +13,9 @@ namespace RnsConsole
             CompositionRoot root = new CompositionRoot();
             root.Start();
 
-            IFeedDownloader feedDownloader = root.Get();
+            ILinkDownloader feedDownloader = root.Get();
 
-            string content = await feedDownloader.Download();
+            IList<string> companyNewsDownloads = await feedDownloader.DownloadAll();
         }
     }
 }

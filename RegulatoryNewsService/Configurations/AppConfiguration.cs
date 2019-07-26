@@ -1,13 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
 
-namespace RegulatoryNewsService
+namespace RegulatoryNewsService.Configurations
 {
     public class AppConfiguration : IAppConfiguration
     {
-        public AppConfiguration()
+        private readonly IArrayExtractor _extractor;
+
+        public AppConfiguration(IArrayExtractor extractor)
         {
+            _extractor = extractor;
             IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appSettings.json", false, true);
@@ -19,22 +23,18 @@ namespace RegulatoryNewsService
 
         private void BuildSymbolsConfiguration(IConfigurationRoot configurationRoot)
         {
-            List<string> symbols = new List<string>(20);
-            string symbol = null;
-            int i = 0;
-            do
-            {
-                symbol = configurationRoot.GetSection("Symbols:Interest")[i++.ToString()];
-                if (symbol != null)
-                {
-                    symbols.Add(symbol);
-                }
-            }
-            while (symbol != null);
+            IList<string> symbols = _extractor.ExtractValues("Symbols:Interest", configurationRoot);
 
             SymbolsConfiguration = new SymbolsConfiguration
             {
                 Symbols = symbols.ToArray()
+            };
+
+            IList<string> phrases = _extractor.ExtractValues("Search:Phrases", configurationRoot);
+
+            SearchConfiguration = new SearchConfiguration
+            {
+                Phrases = phrases.ToArray()
             };
 
             UrlsConfiguration = new UrlsConfiguration
@@ -50,6 +50,8 @@ namespace RegulatoryNewsService
         }
 
         public SymbolsConfiguration SymbolsConfiguration { get; private set; }
+
+        public SearchConfiguration SearchConfiguration { get; private set; }
 
         public UrlsConfiguration UrlsConfiguration { get; private set; }
 

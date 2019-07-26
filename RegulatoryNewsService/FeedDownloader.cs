@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using RegulatoryNewsService.Configurations;
 
 namespace RegulatoryNewsService
 {

@@ -13,9 +13,9 @@ namespace RnsConsole
             CompositionRoot root = new CompositionRoot();
             root.Start();
 
-            ILinkDownloader feedDownloader = root.Get();
+            ICompanyNewsSearcher companyNewsSearcher = root.Get();
 
-            IList<string> companyNewsDownloads = await feedDownloader.DownloadAll();
+            IList<string> companyNewsDownloads = await companyNewsSearcher.Filter();
         }
     }
 }

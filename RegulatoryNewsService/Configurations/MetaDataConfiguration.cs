@@ -1,4 +1,4 @@
-﻿namespace RegulatoryNewsService
+﻿namespace RegulatoryNewsService.Configurations
 {
     public class MetaDataConfiguration
     {

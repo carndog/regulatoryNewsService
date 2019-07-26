@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using RegulatoryNewsService.Configurations;
 
 namespace RegulatoryNewsService
 {

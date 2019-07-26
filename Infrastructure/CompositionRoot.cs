@@ -1,6 +1,7 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using RegulatoryNewsService;
+using RegulatoryNewsService.Configurations;
 
 namespace Infrastructure
 {
@@ -23,16 +24,17 @@ namespace Infrastructure
                 Component.For<IFeedDownloader>().ImplementedBy<FeedDownloader>(),
                 Component.For<IAppConfiguration>().ImplementedBy<AppConfiguration>(),
                 Component.For<IUrlLinkProvider>().ImplementedBy<RnsSearchResultsUrlLinkProvider>(),
-                Component.For<ILinkDownloader>().ImplementedBy<LinkDownloader>()
+                Component.For<ILinkDownloader>().ImplementedBy<LinkDownloader>(),
+                Component.For<IArrayExtractor>().ImplementedBy<ArrayExtractor>(),
+                Component.For<ICompanyNewsSearcher>().ImplementedBy<CompanyNewsSearcher>()
 
             );
 
         }
 
-        public ILinkDownloader Get()
+        public ICompanyNewsSearcher Get()
         {
-            return _container.Resolve<ILinkDownloader>();
+            return _container.Resolve<ICompanyNewsSearcher>();
         }
-       
     }
 }
